@@ -1,0 +1,11 @@
+venv:
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+pip install pyinstaller
+
+Test:
+Invoke-RestMethod -Uri "http://localhost:5019/clip" -Method POST -ContentType "application/json" -Body '{"text": "Hello from PowerShell test!"}'
+
+Compile:
+pyinstaller main.spec
