@@ -91,7 +91,8 @@ def show_notification(message):
         # Run PowerShell with output capture
         result = subprocess.run([
             "powershell", "-WindowStyle", "Hidden", "-Command", powershell_script
-        ], check=False, capture_output=True, text=True)
+        ], check=False, capture_output=True, text=True,
+           creationflags=subprocess.CREATE_NO_WINDOW)
         
         print(f"DEBUG: PowerShell return code: {result.returncode}")
         if result.stdout:

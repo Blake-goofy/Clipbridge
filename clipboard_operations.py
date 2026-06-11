@@ -74,7 +74,8 @@ def copy_image_to_clipboard(image_bytes):
         
         result = subprocess.run([
             "powershell", "-WindowStyle", "Hidden", "-Command", powershell_script
-        ], check=False, capture_output=True, text=True)
+        ], check=False, capture_output=True, text=True,
+           creationflags=subprocess.CREATE_NO_WINDOW)
         
         if result.returncode == 0:
             print("Image copied to clipboard")

@@ -3,18 +3,37 @@ Icon creation and management utilities
 """
 
 import os
+import sys
 import glob
 from PIL import Image, ImageDraw
 
 
+def _get_app_dir():
+    """Get the directory where the app executable or script is located."""
+    if getattr(sys, 'frozen', False):
+        # Running as a PyInstaller bundle
+        return os.path.dirname(sys.executable)
+    else:
+        # Running as a plain Python script
+        return os.path.dirname(os.path.abspath(__file__))
+
+
 def create_app_icon():
-    """Look for any .ico file in the folder, create permanent fallback if needed"""
+    """Look for any .ico file in the app folder, create permanent fallback if needed"""
     try:
-        # Look for any .ico file in the current directory
-        ico_files = glob.glob("*.ico")
-        
+        app_dir = _get_app_dir()
+
+        # Prefer the specific clipbridge.ico in the app directory
+        specific_icon = os.path.join(app_dir, "clipbridge.ico")
+        if os.path.exists(specific_icon):
+            print(f"Using icon file: {specific_icon}")
+            return Image.open(specific_icon)
+
+        # Fall back to any .ico file found in the app directory
+        ico_files = glob.glob(os.path.join(app_dir, "*.ico"))
+
         if ico_files:
-            icon_path = ico_files[0]  # Use the first .ico file found
+            icon_path = ico_files[0]
             print(f"Using icon file: {icon_path}")
             return Image.open(icon_path)
         else:
@@ -28,8 +47,8 @@ def create_app_icon():
 def _create_and_save_fallback_icon():
     """Create and save a permanent fallback icon file"""
     try:
-        fallback_path = "clipbridge_fallback.ico"
-        
+        fallback_path = os.path.join(_get_app_dir(), "clipbridge_fallback.ico")
+
         # Check if fallback already exists
         if os.path.exists(fallback_path):
             print(f"Using existing fallback icon: {fallback_path}")
