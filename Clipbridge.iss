@@ -30,6 +30,7 @@ Name: "startup"; Description: "Run {#MyAppName} at Windows &startup"; GroupDescr
 [Files]
 Source: "dist\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "clipbridge.ico"; DestDir: "{app}"; Flags: ignoreversion
+Source: "clipbridge_icon.png"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\clipbridge.ico"
